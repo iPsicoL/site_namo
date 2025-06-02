@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    setInterval(createHeart, 300);
+    setInterval(createHeart, 100);
 
     document.querySelectorAll('.polaroid').forEach(polaroid => {
         const randomRotation = Math.random() * 10 - 5;
