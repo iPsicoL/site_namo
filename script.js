@@ -1,5 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ... Seu código do cronômetro existente ...
+
+    // APENAS UMA DECLARAÇÃO DE heroSection AQUI:
+    const heroSection = document.querySelector('.hero'); //
+
+    const backgroundImages = [
+        'img/hero-bg1.jpeg',
+        'img/hero-bg2.jpeg',
+        'img/hero-bg3.jpeg',
+        'img/hero-bg4.jpeg',
+        'img/hero-bg5.jpeg',
+        'img/hero-bg6.jpeg'
+        // Adicione mais caminhos de imagens conforme necessário
+    ];
+    let currentImageIndex = 0;
+    const changeBackgroundImageInterval = 5000; // 5000 milissegundos = 5 segundos
+
+    function changeBackgroundImage() {
+        heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${backgroundImages[(currentImageIndex % backgroundImages.length)]}')`;
+        currentImageIndex++;
+    }
+
+    // Inicia o slideshow de fundo
+    changeBackgroundImage();
+    setInterval(changeBackgroundImage, changeBackgroundImageInterval);
+
+
     const startDate = new Date('2024-11-09T20:00:00');
     const countdownElement = document.getElementById('countdown');
 
@@ -26,8 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCountdown();
 
     // ... Seu código dos corações flutuantes existente ...
-    const heroSection = document.querySelector('.hero');
-
+    // A variável heroSection já foi declarada no início, não declare novamente aqui.
     function createHeart() {
         const heart = document.createElement('div');
         heart.classList.add('heart');
@@ -37,14 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
         heart.style.animationDelay = Math.random() * 2 + 's';
         heart.style.opacity = Math.random() * 0.4 + 0.3;
         heart.style.fontSize = Math.random() * 1.5 + 1.5 + 'em';
-        heroSection.appendChild(heart);
+        heroSection.appendChild(heart); // Usando a heroSection já declarada
 
         heart.addEventListener('animationend', () => {
             heart.remove();
         });
     }
 
-    setInterval(createHeart, 100);
+    setInterval(createHeart, 1200);
 
     document.querySelectorAll('.polaroid').forEach(polaroid => {
         const randomRotation = Math.random() * 10 - 5;
