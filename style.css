@@ -87,7 +87,7 @@ p {
 
 .countdown {
     font-family: 'Playfair Display', serif;
-    font-size: 3.2em;
+    font-size: 3.5em;
     font-weight: bold;
     color: var(--primary-color);
     margin-top: 25px;
@@ -251,3 +251,84 @@ footer p {
         font-size: 1.8em;
     }
 }
+
+/* ... Seu CSS existente ... */
+
+/* Estilo para o botão de controle da música */
+.music-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: 0 4px 10px var(--shadow-medium);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 100; /* Garante que fique acima de outros elementos */
+}
+
+.music-toggle:hover {
+    background-color: #c20042; /* Tom mais escuro ao passar o mouse */
+    transform: scale(1.1);
+}
+
+.music-toggle i {
+    pointer-events: none; /* Para que o clique no botão não seja impedido pelo ícone */
+}
+
+/* Responsividade para o botão de música */
+@media (max-width: 480px) {
+    .music-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3em;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+/* ... Seu CSS existente ... */
+
+/* Container da Marca D'água */
+.watermark-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Garante que fique atrás do conteúdo e dos corações */
+    pointer-events: none; /* Evita que a imagem capture eventos de clique */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Garante que a imagem não extrapole o container */
+}
+
+/* Imagem da Marca D'água */
+.watermark-image {
+    max-width: 120%; /* Ajuste o tamanho conforme necessário */
+    max-height: 120%; /* Ajuste o tamanho conforme necessário */
+    opacity: 0.3; /* Nível de transparência da marca d'água */
+    object-fit: contain; /* Garante que a imagem caiba dentro do container sem cortar */
+}
+
+/* Ajuste no z-index dos corações para ficarem acima da marca d'água */
+.heart {
+    /* ... outras propriedades do .heart ... */
+    z-index: 1; /* Garante que os corações fiquem acima da marca d'água */
+}
+
+/* Hero Section (pequeno ajuste no overflow) */
+.hero {
+    /* ... outras propriedades do .hero ... */
+    overflow: hidden; /* Mantém o overflow hidden para os corações */
+}
+
+/* ... Seu CSS restante ... */
