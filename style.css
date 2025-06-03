@@ -49,7 +49,6 @@ p {
 
 /* Hero Section */
 .hero {
-    /* background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/hero-background.jpg') no-repeat center center/cover; */ /* REMOVA ESTA LINHA */
     color: var(--text-light);
     padding: 100px 20px;
     display: flex;
@@ -255,8 +254,6 @@ footer p {
     }
 }
 
-/* ... Seu CSS existente ... */
-
 /* Estilo para o botão de controle da música */
 .music-toggle {
     position: fixed;
@@ -297,8 +294,6 @@ footer p {
         right: 15px;
     }
 }
-/* ... Seu CSS existente ... */
-
 /* Container da Marca D'água */
 .watermark-container {
     position: absolute;
@@ -324,14 +319,72 @@ footer p {
 
 /* Ajuste no z-index dos corações para ficarem acima da marca d'água */
 .heart {
-    /* ... outras propriedades do .heart ... */
     z-index: 1; /* Garante que os corações fiquem acima da marca d'água */
 }
 
 /* Hero Section (pequeno ajuste no overflow) */
 .hero {
-    /* ... outras propriedades do .hero ... */
     overflow: hidden; /* Mantém o overflow hidden para os corações */
 }
 
-/* ... Seu CSS restante ... */
+/* Estilos para o Modal de Imagem */
+.image-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Overlay escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Acima de todo o resto */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.image-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.image-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    overflow: hidden; /* Garante que a imagem não saia das bordas */
+}
+
+.image-modal-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
+    display: block;
+    border-radius: 8px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1010; /* Acima da imagem no modal */
+}
+
+.close-modal:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}

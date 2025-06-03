@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // APENAS UMA DECLARAÇÃO DE heroSection AQUI:
-    const heroSection = document.querySelector('.hero'); //
+    const heroSection = document.querySelector('.hero');
 
     const backgroundImages = [
         'img/hero-bg1.jpeg',
@@ -10,17 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
         'img/hero-bg4.jpeg',
         'img/hero-bg5.jpeg',
         'img/hero-bg6.jpeg'
-        // Adicione mais caminhos de imagens conforme necessário
     ];
     let currentImageIndex = 0;
-    const changeBackgroundImageInterval = 5000; // 5000 milissegundos = 5 segundos
+    const changeBackgroundImageInterval = 5000;
 
     function changeBackgroundImage() {
         heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${backgroundImages[(currentImageIndex % backgroundImages.length)]}')`;
         currentImageIndex++;
     }
 
-    // Inicia o slideshow de fundo
     changeBackgroundImage();
     setInterval(changeBackgroundImage, changeBackgroundImageInterval);
 
@@ -50,8 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // ... Seu código dos corações flutuantes existente ...
-    // A variável heroSection já foi declarada no início, não declare novamente aqui.
     function createHeart() {
         const heart = document.createElement('div');
         heart.classList.add('heart');
@@ -61,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         heart.style.animationDelay = Math.random() * 2 + 's';
         heart.style.opacity = Math.random() * 0.4 + 0.3;
         heart.style.fontSize = Math.random() * 1.5 + 1.5 + 'em';
-        heroSection.appendChild(heart); // Usando a heroSection já declarada
+        heroSection.appendChild(heart);
 
         heart.addEventListener('animationend', () => {
             heart.remove();
@@ -75,27 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
         polaroid.style.setProperty('--rotation', `${randomRotation}deg`);
     });
 
-    // --- Lógica para controle de música ATUALIZADA ---
     const backgroundMusic = document.getElementById('background-music');
     const musicToggle = document.getElementById('music-toggle');
     const musicIcon = musicToggle.querySelector('i');
 
-    // Tenta tocar a música assim que a página é carregada
-    // Captura o erro se o navegador bloquear o autoplay
     backgroundMusic.play().then(() => {
-        // Se a reprodução automática for bem-sucedida
         musicIcon.classList.remove('fa-play');
         musicIcon.classList.add('fa-pause');
-        backgroundMusic.volume = 0.5; // Ajuste o volume se for muito alto inicialmente
+        backgroundMusic.volume = 0.5;
     }).catch(error => {
-        // Se a reprodução automática for bloqueada
         console.warn('Reprodução automática de áudio bloqueada pelo navegador.', error);
-        // O ícone deve permanecer como 'play' se a música não tocar
         musicIcon.classList.remove('fa-pause');
         musicIcon.classList.add('fa-play');
     });
 
-    // Event listener para o botão de toggle (play/pause)
     musicToggle.addEventListener('click', () => {
         if (backgroundMusic.paused) {
             backgroundMusic.play().then(() => {
@@ -111,16 +99,82 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Opcional: Ajusta o ícone se o usuário clicar na página (qualquer lugar)
-    // Isso pode ajudar em alguns casos onde o navegador espera qualquer interação
     document.body.addEventListener('click', () => {
-        if (backgroundMusic.paused && backgroundMusic.currentTime === 0) { // Tenta tocar apenas se não tiver tocado ainda
+        if (backgroundMusic.paused && backgroundMusic.currentTime === 0) {
             backgroundMusic.play().then(() => {
                 musicIcon.classList.remove('fa-play');
                 musicIcon.classList.add('fa-pause');
             }).catch(error => {
-                // Ignore erros, já que a interação do usuário pode não ser suficiente
+                // Ignore errors
             });
         }
-    }, { once: true }); // Executa apenas uma vez
+    }, { once: true });
+
+
+    // Lógica para o Modal de Imagem
+    const galleryGrid = document.querySelector('.gallery-grid');
+    let imageModalOverlay;
+    let imageModalContent;
+    let modalImage;
+    let closeModalBtn;
+
+    function createModalElements() {
+        // Overlay do modal
+        imageModalOverlay = document.createElement('div');
+        imageModalOverlay.classList.add('image-modal-overlay');
+        document.body.appendChild(imageModalOverlay);
+
+        // Conteúdo do modal (onde a imagem ampliada estará)
+        imageModalContent = document.createElement('div');
+        imageModalContent.classList.add('image-modal-content');
+        imageModalOverlay.appendChild(imageModalContent);
+
+        // Imagem dentro do modal
+        modalImage = document.createElement('img');
+        imageModalContent.appendChild(modalImage);
+
+        // Botão de fechar
+        closeModalBtn = document.createElement('button');
+        closeModalBtn.classList.add('close-modal');
+        closeModalBtn.innerHTML = '&times;'; // Caractere 'X' para fechar
+        imageModalOverlay.appendChild(closeModalBtn); // Adiciona o botão de fechar ao overlay, não ao conteúdo
+
+        // Event listener para fechar o modal
+        imageModalOverlay.addEventListener('click', (e) => {
+            if (e.target === imageModalOverlay || e.target === closeModalBtn) {
+                closeImageModal();
+            }
+        });
+
+        // Event listener para fechar com a tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && imageModalOverlay.classList.contains('active')) {
+                closeImageModal();
+            }
+        });
+    }
+
+    function openImageModal(imageSrc) {
+        if (!imageModalOverlay) { // Se os elementos do modal ainda não existem, crie-os
+            createModalElements();
+        }
+        modalImage.src = imageSrc;
+        imageModalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Evita rolagem da página quando o modal está aberto
+    }
+
+    function closeImageModal() {
+        if (imageModalOverlay) {
+            imageModalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restaura a rolagem da página
+        }
+    }
+
+    // Adiciona o event listener para cliques nas imagens polaroid
+    galleryGrid.addEventListener('click', (e) => {
+        const clickedImage = e.target.closest('.polaroid img');
+        if (clickedImage) {
+            openImageModal(clickedImage.src);
+        }
+    });
 });
