@@ -74,16 +74,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicToggle = document.getElementById('music-toggle');
     const musicIcon = musicToggle.querySelector('i');
 
-    backgroundMusic.play().then(() => {
-        musicIcon.classList.remove('fa-play');
-        musicIcon.classList.add('fa-pause');
-        backgroundMusic.volume = 0.5;
-    }).catch(error => {
-        console.warn('Reprodução automática de áudio bloqueada pelo navegador.', error);
-        musicIcon.classList.remove('fa-pause');
-        musicIcon.classList.add('fa-play');
+    // --- Pop-up and Music Control ---
+    const accessPopup = document.getElementById('access-popup');
+    const enterSiteBtn = document.getElementById('enter-site-btn');
+
+    // Initially hide the main content by adding a class to body
+    document.body.classList.add('locked');
+
+    enterSiteBtn.addEventListener('click', () => {
+        accessPopup.style.display = 'none'; // Hide the pop-up
+        document.body.classList.remove('locked'); // Unlock body scroll
+
+        // Play music
+        backgroundMusic.play().then(() => {
+            musicIcon.classList.remove('fa-play');
+            musicIcon.classList.add('fa-pause');
+            backgroundMusic.volume = 0.5;
+        }).catch(error => {
+            console.warn('Reprodução de áudio bloqueada.', error);
+        });
     });
 
+    // Handle music toggle for user interaction after pop-up
     musicToggle.addEventListener('click', () => {
         if (backgroundMusic.paused) {
             backgroundMusic.play().then(() => {
@@ -99,19 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.body.addEventListener('click', () => {
-        if (backgroundMusic.paused && backgroundMusic.currentTime === 0) {
-            backgroundMusic.play().then(() => {
-                musicIcon.classList.remove('fa-play');
-                musicIcon.classList.add('fa-pause');
-            }).catch(error => {
-                // Ignore errors
-            });
-        }
-    }, { once: true });
+    // Prevent autoplay on load, it will be handled by the pop-up button
+    backgroundMusic.pause(); // Ensure it's paused initially
+    musicIcon.classList.remove('fa-pause'); // Ensure play icon is shown
+    musicIcon.classList.add('fa-play');
+
+    // --- End Pop-up and Music Control ---
 
 
-    // Lógica para o Modal de Imagem
+    // Lógica para o Modal de Imagem (mantida como estava)
     const galleryGrid = document.querySelector('.gallery-grid');
     let imageModalOverlay;
     let imageModalContent;
@@ -119,34 +127,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let closeModalBtn;
 
     function createModalElements() {
-        // Overlay do modal
         imageModalOverlay = document.createElement('div');
         imageModalOverlay.classList.add('image-modal-overlay');
         document.body.appendChild(imageModalOverlay);
 
-        // Conteúdo do modal (onde a imagem ampliada estará)
         imageModalContent = document.createElement('div');
         imageModalContent.classList.add('image-modal-content');
         imageModalOverlay.appendChild(imageModalContent);
 
-        // Imagem dentro do modal
         modalImage = document.createElement('img');
         imageModalContent.appendChild(modalImage);
 
-        // Botão de fechar
         closeModalBtn = document.createElement('button');
         closeModalBtn.classList.add('close-modal');
-        closeModalBtn.innerHTML = '&times;'; // Caractere 'X' para fechar
-        imageModalOverlay.appendChild(closeModalBtn); // Adiciona o botão de fechar ao overlay, não ao conteúdo
+        closeModalBtn.innerHTML = '&times';
+        imageModalOverlay.appendChild(closeModalBtn);
 
-        // Event listener para fechar o modal
         imageModalOverlay.addEventListener('click', (e) => {
             if (e.target === imageModalOverlay || e.target === closeModalBtn) {
                 closeImageModal();
             }
         });
 
-        // Event listener para fechar com a tecla ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && imageModalOverlay.classList.contains('active')) {
                 closeImageModal();
@@ -155,22 +157,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openImageModal(imageSrc) {
-        if (!imageModalOverlay) { // Se os elementos do modal ainda não existem, crie-os
+        if (!imageModalOverlay) {
             createModalElements();
         }
         modalImage.src = imageSrc;
         imageModalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Evita rolagem da página quando o modal está aberto
+        document.body.style.overflow = 'hidden';
     }
 
     function closeImageModal() {
         if (imageModalOverlay) {
             imageModalOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Restaura a rolagem da página
+            document.body.style.overflow = '';
         }
     }
 
-    // Adiciona o event listener para cliques nas imagens polaroid
     galleryGrid.addEventListener('click', (e) => {
         const clickedImage = e.target.closest('.polaroid img');
         if (clickedImage) {

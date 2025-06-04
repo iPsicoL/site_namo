@@ -388,3 +388,123 @@ footer p {
 .close-modal:hover {
     background-color: rgba(255, 255, 255, 0.5);
 }
+
+/* Estilos para o Pop-up de Acesso */
+.access-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('img/welcome-bg.jpeg'); /* Imagem de fundo do pop-up */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.6); /* Overlay escuro sobre a imagem */
+    background-blend-mode: multiply; /* Mistura a cor de fundo com a imagem */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.access-popup-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    transform: scale(0.9);
+    animation: popupAppear 0.5s forwards cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.access-popup-content h2 {
+    color: var(--primary-color);
+    font-size: 2.8em;
+    margin-bottom: 15px;
+}
+
+.access-popup-content p {
+    font-size: 1.3em;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+}
+
+.enter-site-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.6em;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.enter-site-btn:hover {
+    background-color: #c20042;
+    transform: translateY(-3px);
+}
+
+.enter-site-btn i {
+    font-size: 1.2em;
+}
+
+/* Animação para o pop-up */
+@keyframes popupAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Esconde o conteúdo principal do site até o pop-up ser fechado */
+body.locked {
+    overflow: hidden;
+}
+
+/* Media Queries para o Pop-up */
+@media (max-width: 768px) {
+    .access-popup-content {
+        padding: 30px;
+    }
+    .access-popup-content h2 {
+        font-size: 2.2em;
+    }
+    .access-popup-content p {
+        font-size: 1.1em;
+    }
+    .enter-site-btn {
+        padding: 12px 25px;
+        font-size: 1.4em;
+    }
+}
+
+@media (max-width: 480px) {
+    .access-popup-content {
+        padding: 20px;
+    }
+    .access-popup-content h2 {
+        font-size: 1.8em;
+    }
+    .access-popup-content p {
+        font-size: 1em;
+    }
+    .enter-site-btn {
+        padding: 10px 20px;
+        font-size: 1.2em;
+    }
+}
