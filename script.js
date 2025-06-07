@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const externalIframe = document.getElementById('external-iframe');
 
     // **Defina o link externo aqui**
-    const externalUrl = 'https://im-a-puzzle.com/share/75930ad11fcac80'; // Altere este URL para o link desejado
+    const externalUrl = 'https://im-a-puzzle.com/share/10bd15603dcc6f0'; // Altere este URL para o link desejado
 
     openExternalLinkBtn.addEventListener('click', () => {
         externalIframe.src = externalUrl; // Define o src do iframe
