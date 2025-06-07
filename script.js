@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Botão de fechar
         closeModalBtn = document.createElement('button');
         closeModalBtn.classList.add('close-modal');
-        closeModalBtn.innerHTML = '&times;'; // Caractere 'X' para fechar
+        closeModalBtn.innerHTML = '&times'; // Caractere 'X' para fechar
         imageModalOverlay.appendChild(closeModalBtn); // Adiciona o botão de fechar ao overlay, não ao conteúdo
 
         // Event listener para fechar o modal
@@ -224,4 +224,43 @@ document.addEventListener('DOMContentLoaded', () => {
             openImageModal(clickedImage.src);
         }
     });
+
+    // --- Lógica para o Novo Pop-up de Link Externo ---
+    const openExternalLinkBtn = document.getElementById('open-external-link-btn');
+    const externalLinkPopup = document.getElementById('external-link-popup');
+    const closeExternalPopupBtn = document.querySelector('.close-external-popup');
+    const externalIframe = document.getElementById('external-iframe');
+
+    // **Defina o link externo aqui**
+    const externalUrl = 'https://im-a-puzzle.com/share/75930ad11fcac80'; // Altere este URL para o link desejado
+
+    openExternalLinkBtn.addEventListener('click', () => {
+        externalIframe.src = externalUrl; // Define o src do iframe
+        externalLinkPopup.classList.add('active'); // Ativa o pop-up
+        document.body.style.overflow = 'hidden'; // Evita rolagem da página
+    });
+
+    closeExternalPopupBtn.addEventListener('click', () => {
+        closeExternalLinkPopup(); // Fecha o pop-up
+    });
+
+    externalLinkPopup.addEventListener('click', (e) => {
+        // Fecha o pop-up se clicar no overlay (fora do conteúdo)
+        if (e.target === externalLinkPopup) {
+            closeExternalLinkPopup();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        // Fecha o pop-up com a tecla ESC
+        if (e.key === 'Escape' && externalLinkPopup.classList.contains('active')) {
+            closeExternalLinkPopup();
+        }
+    });
+
+    function closeExternalLinkPopup() {
+        externalLinkPopup.classList.remove('active'); // Desativa o pop-up
+        document.body.style.overflow = ''; // Restaura a rolagem da página
+        externalIframe.src = ''; // Limpa o src do iframe para parar qualquer mídia ou carregamento
+    }
 });

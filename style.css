@@ -508,3 +508,139 @@ body.locked {
         font-size: 1.2em;
     }
 }
+
+/* Estilo para o Botão de Link Externo */
+.external-link-btn {
+    position: fixed; /* Fixa na tela */
+    bottom: 90px; /* Acima do botão de música, ajuste se necessário */
+    right: 20px;
+    background-color: var(--secondary-color); /* Cor rosa claro */
+    color: var(--primary-color); /* Cor rosa forte */
+    border: none;
+    border-radius: 50px; /* Bordas arredondadas */
+    padding: 15px 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px var(--shadow-medium);
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    z-index: 99; /* Garante que fique acima de outros elementos, mas abaixo dos modais */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.external-link-btn:hover {
+    background-color: #ffafbd; /* Tom ligeiramente mais escuro ao passar o mouse */
+    transform: translateY(-3px);
+    color: #c20042; /* Tom mais escuro do primary color ao passar o mouse */
+}
+
+.external-link-btn i {
+    font-size: 1.2em;
+}
+
+/* Responsividade para o botão de link externo */
+@media (max-width: 480px) {
+    .external-link-btn {
+        padding: 12px 20px;
+        font-size: 0.9em;
+        bottom: 75px; /* Ajuste para telas menores */
+        right: 15px;
+    }
+}
+
+
+/* Estilos para o Pop-up de Link Externo */
+.external-link-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Overlay escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Acima de todos os outros elementos */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.external-link-popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.external-link-popup-content {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    max-width: 90%;
+    max-height: 90%;
+    width: 800px; /* Largura padrão do pop-up */
+    height: 600px; /* Altura padrão do pop-up */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.external-link-popup-overlay.active .external-link-popup-content {
+    transform: scale(1);
+}
+
+.external-link-popup-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 5px;
+}
+
+.close-external-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 10; /* Acima do iframe */
+}
+
+.close-external-popup:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Responsividade para o Pop-up de Link Externo */
+@media (max-width: 768px) {
+    .external-link-popup-content {
+        width: 95%;
+        height: 85%;
+    }
+}
+
+@media (max-width: 480px) {
+    .external-link-popup-content {
+        padding: 15px;
+        width: 98%;
+        height: 80%;
+    }
+    .close-external-popup {
+        width: 30px;
+        height: 30px;
+        font-size: 1.5em;
+    }
+}
